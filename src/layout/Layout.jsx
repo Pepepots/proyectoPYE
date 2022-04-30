@@ -6,8 +6,6 @@ const Layout = () => {
     const location = useLocation()
     const urlActual = location.pathname
 
-    console.log(urlActual);
-
     return (
         <div className='md:flex md:min-h-screen'>
             
@@ -33,7 +31,7 @@ const Layout = () => {
 
             </div>
 
-            <div className='md:w-3/4'>
+            <div className='md:w-3/4 bg-fondo'>
                 <Outlet />
             </div>
         </div>

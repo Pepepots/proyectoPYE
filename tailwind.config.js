@@ -7,8 +7,9 @@ module.exports = {
         200: '#886750',
         300: '#cab08f',
         400: '#e1d9ce',
-        500: '#ffffff'
-      }
+        500: '#ffffff',
+      },
+      'fondo': '#f2f2f2'
     },
     extend: {},
   },

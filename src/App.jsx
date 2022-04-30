@@ -21,8 +21,7 @@ const App = () => {
             setPrioriZ(prioriZ)
             setEvidenciaXY(evidenciaXY)
             setTablaLikelihood(tablaLikelihood)
-    
-            console.log(prioriZ, evidenciaXY, tablaLikelihood)
+
         }
     }, [data])  
     

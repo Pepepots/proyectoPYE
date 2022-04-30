@@ -12,7 +12,7 @@ export const procesarDatos = (data) => {
     }
 
     for (let i = 0; i < numClientes; i++) {
-        if (data.Temperatura.values[i] <= 10 ) {
+        if (data.Temperatura.values[i] <= 10) {
             data.Temperatura.values[i] = 0
         } else if (data.Temperatura.values[i] > 10 && data.Temperatura.values[i] < 20) {
             data.Temperatura.values[i] = 1
@@ -23,7 +23,7 @@ export const procesarDatos = (data) => {
 
     // -----------------------------------------------
 
-    const prioriZ = [0,0]
+    const prioriZ = [0, 0]
 
     for (let i = 0; i < numClientes; i++) {
         prioriZ[data.Bebida.values[i]] += 1
@@ -35,15 +35,15 @@ export const procesarDatos = (data) => {
 
     // -------------------------------------------------
 
-    const evidenciaXY = [[0,0,0],
-                         [0,0,0],
-                         [0,0,0]]
+    const evidenciaXY = [[0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]]
 
-    for (let i = 0; i < numClientes; i++){
+    for (let i = 0; i < numClientes; i++) {
         evidenciaXY[data.Edad.values[i]][data.Temperatura.values[i]] += 1
     }
 
-    for (let i = 0; i < 3; i++){
+    for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             evidenciaXY[i][j] /= numClientes
         }
@@ -52,20 +52,20 @@ export const procesarDatos = (data) => {
     // ---------------------------------------------------------
 
     const distriXYZ = [[
-                            [0,0,0],
-                            [0,0,0],
-                            [0,0,0]
-                        ],[
-                            [0,0,0],
-                            [0,0,0],
-                            [0,0,0]
-                        ]]
-    
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ], [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]]
+
     for (let i = 0; i < numClientes; i++) {
         distriXYZ[data.Bebida.values[i]][data.Edad.values[i]][data.Temperatura.values[i]] += 1
     }
 
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
             for (let k = 0; k < 3; k++) {
                 distriXYZ[i][j][k] /= numClientes
@@ -76,16 +76,16 @@ export const procesarDatos = (data) => {
     // -------------------------------------------------------------
 
     const tablaLikelihood = [[
-                                [0,0,0],
-                                [0,0,0],
-                                [0,0,0]
-                            ],[
-                                [0,0,0],
-                                [0,0,0],
-                                [0,0,0]
-                            ]]
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ], [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]]
 
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
         for (let j = 0; j < 3; j++) {
             for (let k = 0; k < 3; k++) {
                 tablaLikelihood[i][j][k] = distriXYZ[i][j][k] / prioriZ[i]
@@ -99,9 +99,26 @@ export const procesarDatos = (data) => {
 
 export const predecir = (prioriZ, evidenciaXY, tablaLikelihood, edad, temperaturaDDia) => {
 
-    const probBebFria = (prioriZ[0]*tablaLikelihood[0][edad][temperaturaDDia])/evidenciaXY[edad][temperaturaDDia]
-    const probBebCaliente = (prioriZ[1]*tablaLikelihood[1][edad][temperaturaDDia])/evidenciaXY[edad][temperaturaDDia]
+    if (edad < 18) {
+        edad = 0
+    } else if (edad >= 18 && edad < 60) {
+        edad = 1
+    } else {
+        edad = 2
+    }
 
-    return [ probBebFria, probBebCaliente ]
+
+    if (temperaturaDDia <= 10) {
+        temperaturaDDia = 0
+    } else if (temperaturaDDia > 10 && temperaturaDDia < 20) {
+        temperaturaDDia = 1
+    } else {
+        temperaturaDDia = 2
+    }
+
+    const probBebFria = (prioriZ[0] * tablaLikelihood[0][edad][temperaturaDDia]) / evidenciaXY[edad][temperaturaDDia]
+    const probBebCaliente = (prioriZ[1] * tablaLikelihood[1][edad][temperaturaDDia]) / evidenciaXY[edad][temperaturaDDia]
+
+    return [probBebFria, probBebCaliente]
 
 }
