@@ -31,7 +31,7 @@ const App = () => {
                 <Route path='/' element={ data ? (<Navigate to='/datos/predecir' />) : <Archivo setData={setData}/>}/>
                 <Route path="/datos" element={data ? <Layout /> : (<Navigate to='/' />)}>              
                     <Route path='predecir' element={<Predecir prioriZ={prioriZ} evidenciaXY={evidenciaXY} tablaLikelihood={tablaLikelihood} />} />    
-                    <Route path='visualizar' element={<Datos />} />
+                    <Route path='visualizar' element={<Datos evidenciaXY={evidenciaXY} />} />
                 </Route>
             </Routes>
         </BrowserRouter>

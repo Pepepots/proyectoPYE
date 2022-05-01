@@ -1,35 +1,29 @@
+import GraficoBarras from "../components/GraficoBarras"
+import GraficoDona from "../components/GraficoDona"
+import TablaSugerencia from "../components/TablaSugerencia"
 
-export const Datos = () => {
+export const Datos = ({ evidenciaXY }) => {
+
+    // console.log(evidenciaXY);
+
     return (
-        <div className="grid grid-cols-3 grid-rows-2">
+        <div className="grid grid-cols-2 lg:grid-cols-3 grid-rows-2">
             <div 
-                className="h-40 w-10/12 m-10 mt-20 rounded-lg shadow-xl bg-cafeteria-500"
+                className="h-auto w-10/12 mx-10 my-5 rounded-lg shadow-xl bg-cafeteria-500"
             >
-                1
+                <GraficoDona />
             </div>
 
             <div
-                className="h-40 w-10/12 m-10 mt-20 rounded-lg shadow-xl bg-cafeteria-500"
+                className="h-auto w-11/12 m-5 rounded-lg shadow-xl col-span-2 bg-cafeteria-500"
             >
-                1
+                <GraficoBarras evidenciaXY={evidenciaXY}/>
             </div>
             
             <div
-                className="h-40 w-10/12 m-10 mt-20 rounded-lg shadow-xl bg-cafeteria-500"
+                className="h-auto m-10 mt-1 rounded-lg shadow-xl col-span-3 bg-cafeteria-500"
             >
-                1
-            </div>
-
-            <div
-                className="h-40 w-10/12 m-10 mt-20 rounded-lg shadow-xl bg-cafeteria-500"
-            >
-                1
-            </div>
-            
-            <div
-                className="h-40 w-11/12 m-10 mt-20 rounded-lg shadow-xl col-span-2 bg-cafeteria-500"
-            >
-                1
+                <TablaSugerencia />
             </div>
         </div>
     )
