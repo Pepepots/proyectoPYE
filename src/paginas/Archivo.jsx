@@ -1,4 +1,3 @@
-import { readCSV } from "danfojs"
 import { useState } from "react"
 import { csvToArray } from "../helpers/logica"
 
@@ -18,9 +17,6 @@ const Archivo = ({ setData }) => {
     }
 
     const handleChange = (e) => {
-        // readCSV(e.target.files[0]).then(df => {
-        //     setDatos(df)
-        // })
         setDatos(e.target.files[0])
     }
 

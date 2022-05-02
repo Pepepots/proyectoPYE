@@ -3,9 +3,6 @@ import GraficoDona from "../components/GraficoDona"
 import TablaSugerencia from "../components/TablaSugerencia"
 
 export const Datos = ({ evidenciaXY }) => {
-
-    // console.log(evidenciaXY);
-
     return (
         <div className="grid grid-cols-2 lg:grid-cols-3 grid-rows-2">
             <div 
