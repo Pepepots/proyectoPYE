@@ -1,23 +1,27 @@
 export const procesarDatos = (data) => {
-    const numClientes = data.index.length - 1
+    const numClientes = data.length - 1
+
+    for (let i = 0; i < numClientes; i++){
+        data[i].Bebida = Number(data[i].Bebida)
+    }
 
     for (let i = 0; i < numClientes; i++) {
-        if (data.Edad.values[i] < 18) {
-            data.Edad.values[i] = 0
-        } else if (data.Edad.values[i] >= 18 && data.Edad.values[i] < 60) {
-            data.Edad.values[i] = 1
+        if (Number(data[i].Edad) < 18) {
+            data[i].Edad = 0
+        } else if (Number(data[i].Edad) >= 18 && Number(data[i].Edad) < 60) {
+            data[i].Edad = 1
         } else {
-            data.Edad.values[i] = 2
+            data[i].Edad = 2
         }
     }
 
     for (let i = 0; i < numClientes; i++) {
-        if (data.Temperatura.values[i] <= 10) {
-            data.Temperatura.values[i] = 0
-        } else if (data.Temperatura.values[i] > 10 && data.Temperatura.values[i] < 20) {
-            data.Temperatura.values[i] = 1
+        if (Number(data[i].Temperatura) <= 10) {
+            data[i].Temperatura = 0
+        } else if (Number(data[i].Temperatura) > 10 && Number(data[i].Temperatura) < 20) {
+            data[i].Temperatura = 1
         } else {
-            data.Temperatura.values[i] = 2
+            data[i].Temperatura = 2
         }
     }
 
@@ -26,7 +30,7 @@ export const procesarDatos = (data) => {
     const prioriZ = [0, 0]
 
     for (let i = 0; i < numClientes; i++) {
-        prioriZ[data.Bebida.values[i]] += 1
+        prioriZ[data[i].Bebida] += 1
     }
 
     for (let i = 0; i < prioriZ.length; i++) {
@@ -40,7 +44,7 @@ export const procesarDatos = (data) => {
     [0, 0, 0]]
 
     for (let i = 0; i < numClientes; i++) {
-        evidenciaXY[data.Edad.values[i]][data.Temperatura.values[i]] += 1
+        evidenciaXY[data[i].Edad][data[i].Temperatura] += 1
     }
 
     for (let i = 0; i < 3; i++) {
@@ -62,7 +66,7 @@ export const procesarDatos = (data) => {
     ]]
 
     for (let i = 0; i < numClientes; i++) {
-        distriXYZ[data.Bebida.values[i]][data.Edad.values[i]][data.Temperatura.values[i]] += 1
+        distriXYZ[data[i].Bebida][data[i].Edad][data[i].Temperatura] += 1
     }
 
     for (let i = 0; i < 2; i++) {
@@ -73,7 +77,7 @@ export const procesarDatos = (data) => {
         }
     }
 
-    // -------------------------------------------------------------
+    // // -------------------------------------------------------------
 
     const tablaLikelihood = [[
         [0, 0, 0],
@@ -122,3 +126,25 @@ export const predecir = (prioriZ, evidenciaXY, tablaLikelihood, edad, temperatur
     return [probBebFria, probBebCaliente]
 
 }
+
+export const csvToArray = (str, delimiter = ",") => {
+
+    const strFormat = str.replace(/\r/g, '')
+    const headers = strFormat.slice(0, str.indexOf("\n")).split(delimiter);
+    
+    const formatHeaders = headers.map( (header) => header.replace(/\n/g, ''))
+    const rows = strFormat.slice(strFormat.indexOf("\n") + 1).split("\n");
+  
+
+    const arr = rows.map(function (row) {
+      const values = row.split(delimiter);
+      const el = formatHeaders.reduce(function (object, header, index) {
+        object[header] = values[index];
+        return object;
+      }, {});
+      return el;
+    });
+  
+    return arr;
+  }
+  
